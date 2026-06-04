@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Costa Burrito — Gran Inauguración · 24 de Junio · Empuriabrava</title>
+  <meta name="description" content="Costa Burrito llega a Empuriabrava. Health fast food en Platja L'Rubina. Inauguración 24 de Junio — Sant Joan. Inscríbete y consigue tu descuento exclusivo.">
+  <meta name="theme-color" content="#050a15">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap">
+  <link rel="stylesheet" href="styles.css?v=20260604b">
+</head>
+<body>
+
+  <!-- ── Selector de idioma ─────────────────────────────────────────── -->
+  <div class="lang-bar" role="navigation" aria-label="Selección de idioma">
+    <button class="lang-btn active" data-lang="es" aria-pressed="true">ES</button>
+    <span class="lang-sep" aria-hidden="true">·</span>
+    <button class="lang-btn" data-lang="ca" aria-pressed="false">CA</button>
+    <span class="lang-sep" aria-hidden="true">·</span>
+    <button class="lang-btn" data-lang="fr" aria-pressed="false">FR</button>
+  </div>
+
+  <!-- ═══════════════════════════════════ HERO ═══════════════════════════════════ -->
+  <section class="hero" aria-label="Gran Inauguración Costa Burrito">
+
+    <div class="hero-bg-gradient" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+    <svg class="brush brush-tl" viewBox="0 0 300 80" aria-hidden="true" focusable="false">
+      <path d="M10,40 C50,10 120,60 200,30 C250,15 280,45 290,38" stroke="#1a237e" stroke-width="30" fill="none" stroke-linecap="round" opacity="0.5"/>
+    </svg>
+    <svg class="brush brush-br" viewBox="0 0 300 80" aria-hidden="true" focusable="false">
+      <path d="M5,42 C60,65 140,20 220,50 C265,65 285,38 295,44" stroke="#1a237e" stroke-width="24" fill="none" stroke-linecap="round" opacity="0.4"/>
+    </svg>
+    <div class="deco-dots deco-dots-tr" aria-hidden="true"></div>
+    <div class="deco-dots deco-dots-bl" aria-hidden="true"></div>
+
+    <!-- PARTE SUPERIOR: logo + kicker + título (limitado por max-width) -->
+    <div class="hero-top reveal" data-delay="0">
+      <div class="hero-logo">
+        <img src="assets/img/logo.png" alt="Costa Burrito" class="logo-img"
+          onerror="this.parentElement.classList.add('logo-fallback')">
+        <div class="logo-svg-fallback" aria-hidden="true">
+          <svg viewBox="0 0 220 70" fill="none"><text x="110" y="30" text-anchor="middle" font-family="'Dancing Script',cursive" font-size="28" font-weight="700" fill="#f0f4ff">Costa</text><text x="110" y="60" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="32" fill="#f0f4ff" letter-spacing="3">BURRITO</text></svg>
+        </div>
+      </div>
+      <p class="hero-kicker">
+        <span class="kicker-dot"></span>
+        <span data-i18n="kicker">Health Fast Food · Empuriabrava</span>
+        <span class="kicker-dot"></span>
+      </p>
+      <div class="hero-title-wrap">
+        <h1 class="hero-title">
+          <span class="title-line1" data-i18n="title1">GRAN</span>
+          <span class="title-line2" data-i18n="title2">INAUGURACIÓN</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- CINTA — hija directa de .hero (sin max-width), siempre 100% ancho -->
+    <div class="hero-tape" aria-hidden="true">
+      <div class="tape-track"><span class="tape-text" data-i18n-tape></span><span class="tape-text" data-i18n-tape></span></div>
+    </div>
+
+    <!-- PARTE INFERIOR: fecha + countdown + CTA -->
+    <div class="hero-bottom reveal" data-delay="200">
+      <div class="hero-date">
+        <span class="date-main" data-i18n="date">24 de Junio — Sant Joan</span>
+        <span class="date-sub">Platja L'Rubina · Empuriabrava</span>
+      </div>
+      <div class="countdown" id="countdown">
+        <div class="cd-unit"><span class="cd-num" id="cd-days">20</span><span class="cd-label" data-i18n="cd_days">Días</span></div>
+        <span class="cd-sep" aria-hidden="true">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-label" data-i18n="cd_hours">Horas</span></div>
+        <span class="cd-sep" aria-hidden="true">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cd-mins">00</span><span class="cd-label" data-i18n="cd_mins">Min</span></div>
+        <span class="cd-sep" aria-hidden="true">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-label" data-i18n="cd_secs">Seg</span></div>
+      </div>
+      <a href="#registro" class="btn-hero">
+        <span data-i18n="hero_cta">Inscríbete · Consigue tu descuento</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1l-1.4 1.4L11.2 7H1v2h10.2l-4.6 4.6L8 15l7-7-7-7z"/></svg>
+      </a>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true"><span></span></div>
+
+  </section>
+
+  <!-- ═══════════════════════════════ MARQUEE BAND ═══════════════════════════════ -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track"><span class="marquee-item" data-i18n-marquee></span><span class="marquee-item" data-i18n-marquee></span></div>
+  </div>
+
+  <!-- ═══════════════════════════════ REGISTRO ═══════════════════════════════════ -->
+  <section class="registro" id="registro" aria-labelledby="reg-heading">
+    <div class="registro-inner">
+
+      <!-- Copy -->
+      <div class="reg-copy">
+        <p class="reg-kicker reveal-up" data-i18n="reg_kicker">OFERTA EXCLUSIVA · INAUGURACIÓN</p>
+        <h2 class="reg-title reveal-up" id="reg-heading">
+          <span data-i18n="reg_title1">¡No seas</span><br><em data-i18n="reg_title2">burro!</em>
+        </h2>
+        <p class="reg-sub reveal-up" data-i18n="reg_sub">
+          Inscríbete ahora y te guardamos un descuento exclusivo para la inauguración. Sé de los primeros en probar el mejor health fast food de la Costa Brava.
+        </p>
+        <div class="reg-perks reveal-up">
+          <div class="perk"><span class="perk-icon">🎉</span><span data-i18n="perk1">Descuento exclusivo en tu primera visita</span></div>
+          <div class="perk"><span class="perk-icon">📍</span><span data-i18n="perk2">24 de Junio — Platja L'Rubina</span></div>
+          <div class="perk"><span class="perk-icon">🕐</span><span data-i18n="perk3">Viernes, Sábado y Domingo · 12:00–23:00</span></div>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <div class="reg-form-wrap reveal-up">
+        <form class="reg-form" id="regForm" novalidate>
+          <!-- Web3Forms: sustituye YOUR_ACCESS_KEY por tu clave de web3forms.com -->
+          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+          <input type="hidden" name="subject" value="Nueva inscripción Costa Burrito">
+          <input type="hidden" name="from_name" value="Costa Burrito Web">
+          <input type="hidden" id="f-lang" name="idioma" value="es">
+          <input type="checkbox" name="botcheck" style="display:none">
+
+          <div class="form-field">
+            <label for="f-name"><span data-i18n="f_name">Nombre</span> <abbr title="Obligatorio">*</abbr></label>
+            <input type="text" id="f-name" name="name" data-i18n-placeholder="ph_name" placeholder="Tu nombre" required autocomplete="name">
+            <span class="field-err" role="alert"></span>
+          </div>
+          <div class="form-field">
+            <label for="f-email">Email <abbr title="Obligatorio">*</abbr></label>
+            <input type="email" id="f-email" name="email" placeholder="tu@email.com" required autocomplete="email">
+            <span class="field-err" role="alert"></span>
+          </div>
+          <div class="form-field">
+            <label for="f-phone"><span data-i18n="f_phone">Teléfono</span> <span class="opt" data-i18n="optional">(opcional)</span></label>
+            <input type="tel" id="f-phone" name="phone" placeholder="+34 600 000 000" autocomplete="tel">
+          </div>
+          <button type="submit" class="btn-submit" id="regBtn">
+            <span class="btn-label" data-i18n="btn_submit">QUIERO MI DESCUENTO</span>
+            <span class="btn-ok" aria-hidden="true" data-i18n="btn_ok">✓ ¡INSCRITO!</span>
+          </button>
+          <p class="form-legal" data-i18n="form_legal">Sin spam. Descuento válido presentando este email en la inauguración.</p>
+        </form>
+        <div class="reg-success" id="regSuccess" hidden aria-live="polite">
+          <div class="success-check">✓</div>
+          <h3 data-i18n="success_title">¡Ya eres de los nuestros!</h3>
+          <p data-i18n="success_sub">Te hemos guardado el descuento.<br>Nos vemos el <strong>24 de Junio</strong> en Platja L'Rubina!</p>
+          <div class="success-socials">
+            <a href="https://www.instagram.com/costaburrito_empuriabrava/" target="_blank" rel="noopener" data-i18n="follow_ig">Síguenos en Instagram</a>
+            <a href="https://www.tiktok.com/@empuriabravacostaburrito" target="_blank" rel="noopener">TikTok</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ INFO ═════════════════════════════════════ -->
+  <section class="info" aria-labelledby="info-heading">
+    <h2 class="visually-hidden" id="info-heading" data-i18n="info_heading">Información del restaurante</h2>
+
+    <!-- Logo centrado sobre las info cards -->
+    <div class="info-logo-wrap reveal-up">
+      <img src="assets/img/logo.png" alt="Costa Burrito" class="info-logo"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+      <span class="info-logo-text" style="display:none">COSTA BURRITO</span>
+    </div>
+
+    <div class="info-cards">
+      <article class="info-card reveal-up">
+        <div class="info-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <h3 data-i18n="where_title">Dónde estamos</h3>
+        <address><strong>Platja L'Rubina</strong><br>Empuriabrava, Girona</address>
+        <a href="https://www.google.com/maps/place/COSTA+BURRITO/@42.2510397,3.1326546,17z" target="_blank" rel="noopener" class="info-link" data-i18n="maps_link">Ver en Google Maps →</a>
+      </article>
+
+      <article class="info-card reveal-up" style="--delay:100ms">
+        <div class="info-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3 data-i18n="hours_title">Horarios</h3>
+        <p class="info-days" data-i18n="hours_days">Viernes · Sábado · Domingo</p>
+        <p class="info-hours-val">12:00 — 23:00</p>
+        <p class="info-note" data-i18n="hours_note">Abrimos cada fin de semana</p>
+      </article>
+
+      <article class="info-card reveal-up" style="--delay:200ms">
+        <div class="info-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <h3 data-i18n="follow_title">Síguenos</h3>
+        <a href="https://www.instagram.com/costaburrito_empuriabrava/" target="_blank" rel="noopener" class="social-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          @costaburrito_empuriabrava
+        </a>
+        <a href="https://www.tiktok.com/@empuriabravacostaburrito" target="_blank" rel="noopener" class="social-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg>
+          @empuriabravacostaburrito
+        </a>
+      </article>
+    </div>
+
+    <div class="map-container reveal-up">
+
+      <!-- Mapa real en modo noche (carga debajo) -->
+      <iframe
+        id="mapIframe"
+        src="https://maps.google.com/maps?q=42.2510397,3.1326546&hl=es&z=16&output=embed"
+        title="Ubicación Costa Burrito — Platja L'Rubina, Empuriabrava"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+
+      <!-- Tarjeta moderna encima — se desvanece sola -->
+      <div class="map-overlay" id="mapOverlay" aria-hidden="true">
+        <div class="map-overlay-bg"></div>
+        <div class="map-overlay-content">
+          <div class="map-overlay-pin">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          </div>
+          <strong>Costa Burrito</strong>
+          <span>Platja L'Rubina · Empuriabrava</span>
+          <a href="https://www.google.com/maps/place/COSTA+BURRITO/@42.2510397,3.1326546,17z" target="_blank" rel="noopener" class="btn-map" data-i18n="maps_link">Ver en Google Maps →</a>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════ FOOTER ═══════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/img/logo.png" alt="Costa Burrito" class="footer-logo"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span class="footer-logo-text" style="display:none">COSTA BURRITO</span>
+      </div>
+      <nav class="footer-nav" aria-label="Redes sociales">
+        <a href="https://www.instagram.com/costaburrito_empuriabrava/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@empuriabravacostaburrito" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://www.google.com/maps/place/COSTA+BURRITO/@42.2510397,3.1326546,17z" target="_blank" rel="noopener">Maps</a>
+      </nav>
+      <p class="footer-copy">© 2026 Costa Burrito · <a href="https://costaburrito.com">costaburrito.com</a> · Empuriabrava</p>
+    </div>
+  </footer>
+
+  <script defer src="lib/gsap.min.js"></script>
+  <script defer src="lib/ScrollTrigger.min.js"></script>
+  <script defer src="main.js?v=20260604b"></script>
+
+</body>
+</html>
