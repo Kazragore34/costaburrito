@@ -14,6 +14,7 @@
      ══════════════════════════════════════════════════════════════ */
   var T = {
     es: {
+      open_title:"¡YA ESTAMOS AQUÍ!", open_sub:"Ven a visitarnos · Platja L'Rubina",
       kicker:"Health Fast Food · Empuriabrava", title1:"GRAN", title2:"INAUGURACIÓN",
       date:"24 de Junio — Sant Joan", cd_days:"Días", cd_hours:"Horas", cd_mins:"Min", cd_secs:"Seg",
       hero_cta:"Inscríbete · Consigue tu descuento",
@@ -32,6 +33,7 @@
       follow_title:"Síguenos", maps_link:"Ver en Google Maps →", info_heading:"Información del restaurante"
     },
     ca: {
+      open_title:"JA SOM AQUÍ!", open_sub:"Vine a visitar-nos · Platja L'Rubina",
       kicker:"Health Fast Food · Empuriabrava", title1:"GRAN", title2:"INAUGURACIÓ",
       date:"24 de Juny — Sant Joan", cd_days:"Dies", cd_hours:"Hores", cd_mins:"Min", cd_secs:"Seg",
       hero_cta:"Inscriu-te · Aconsegueix el teu descompte",
@@ -50,6 +52,7 @@
       follow_title:"Segueix-nos", maps_link:"Veure a Google Maps →", info_heading:"Informació del restaurant"
     },
     fr: {
+      open_title:"ON EST LÀ!", open_sub:"Venez nous rendre visite · Platja L'Rubina",
       kicker:"Health Fast Food · Empuriabrava", title1:"GRANDE", title2:"INAUGURATION",
       date:"24 Juin — Sant Joan", cd_days:"Jours", cd_hours:"Heures", cd_mins:"Min", cd_secs:"Sec",
       hero_cta:"Inscris-toi · Obtiens ta réduction",
@@ -68,6 +71,7 @@
       follow_title:"Suis-nous", maps_link:"Voir sur Google Maps →", info_heading:"Infos du restaurant"
     },
     en: {
+      open_title:"WE'RE OPEN!", open_sub:"Come visit us · Platja L'Rubina",
       kicker:"Health Fast Food · Empuriabrava", title1:"GRAND", title2:"OPENING",
       date:"June 24th — Sant Joan", cd_days:"Days", cd_hours:"Hours", cd_mins:"Min", cd_secs:"Sec",
       hero_cta:"Sign up · Get your discount",
@@ -287,18 +291,64 @@
     window.addEventListener("resize", setTapeWidth, { passive: true });
   }
 
-  /* ── Countdown ────────────────────────────────────────────────── */
+  /* ── Countdown + reemplazo al expirar ────────────────────────── */
   function initCountdown() {
     var target = new Date("2026-06-24T12:00:00+02:00").getTime();
     var elDays  = document.getElementById("cd-days");
     var elHours = document.getElementById("cd-hours");
     var elMins  = document.getElementById("cd-mins");
     var elSecs  = document.getElementById("cd-secs");
+    var cdWrap  = document.getElementById("countdown");
+    var btnOpen = document.getElementById("btnOpenNow");
     if (!elDays) return;
+
     function pad(n) { return String(n).padStart(2, "0"); }
+
+    /* Animar la transición countdown → botón */
+    function showOpenNow() {
+      if (!cdWrap || !btnOpen) return;
+
+      /* Fade out countdown */
+      cdWrap.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+      cdWrap.style.opacity    = "0";
+      cdWrap.style.transform  = "scale(0.9)";
+
+      setTimeout(function () {
+        cdWrap.style.display = "none";
+        cdWrap.setAttribute("aria-hidden", "true");
+
+        /* Mostrar botón con fade in */
+        btnOpen.hidden = false;
+        btnOpen.removeAttribute("aria-hidden");
+        btnOpen.style.opacity   = "0";
+        btnOpen.style.transform = "scale(0.9)";
+        btnOpen.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            btnOpen.style.opacity   = "1";
+            btnOpen.style.transform = "scale(1)";
+          });
+        });
+
+        /* Actualizar texto al idioma actual */
+        var t = T[currentLang] || T.es;
+        var titleEl = btnOpen.querySelector(".bon-title");
+        var subEl   = btnOpen.querySelector(".bon-sub");
+        if (titleEl && t.open_title) titleEl.textContent = t.open_title;
+        if (subEl   && t.open_sub)   subEl.textContent   = t.open_sub;
+      }, 650);
+    }
+
+    var expired = false;
     function tick() {
       var diff = target - Date.now();
-      if (diff <= 0) { elDays.textContent = elHours.textContent = elMins.textContent = elSecs.textContent = "00"; return; }
+      if (diff <= 0 && !expired) {
+        expired = true;
+        showOpenNow();
+        return;
+      }
+      if (expired) return;
       elDays.textContent  = pad(Math.floor(diff / 86400000));
       elHours.textContent = pad(Math.floor((diff % 86400000) / 3600000));
       elMins.textContent  = pad(Math.floor((diff % 3600000) / 60000));

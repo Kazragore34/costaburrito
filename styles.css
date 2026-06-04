@@ -426,6 +426,33 @@ abbr { text-decoration: none; }
 }
 
 /* Hero CTA button */
+/* ── Botón "¡Ya estamos aquí!" — reemplaza el countdown al expirar ── */
+.btn-open-now {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+  padding: 1.2rem 2.5rem;
+  background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: var(--radius-lg);
+  color: var(--white);
+  text-align: center;
+  animation: bonPulse 2s ease-in-out infinite;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.btn-open-now:hover { transform: translateY(-4px) scale(1.03); }
+.btn-open-now[hidden] { display: none; }
+.bon-emoji  { font-size: clamp(1.5rem, 4vw, 2.2rem); line-height: 1; }
+.bon-title  { font-family: var(--font-display); font-size: clamp(1.8rem, 6vw, 3rem); letter-spacing: 0.1em; line-height: 1; }
+.bon-sub    { font-size: clamp(0.7rem, 2vw, 0.85rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--white-soft); }
+@keyframes bonPulse {
+  0%,100% { box-shadow: 0 0 30px rgba(57,73,171,0.5), 0 0 60px rgba(26,35,126,0.3); }
+  50%      { box-shadow: 0 0 50px rgba(57,73,171,0.9), 0 0 100px rgba(57,73,171,0.5); }
+}
+
 .btn-hero {
   display: inline-flex;
   align-items: center;
@@ -859,28 +886,23 @@ abbr { text-decoration: none; }
   isolation: isolate;   /* crea stacking context para mix-blend-mode */
 }
 
-/* Iframe: oscurecer manteniendo colores originales */
+/* Iframe: oscurecer manteniendo colores del mapa reconocibles */
 .map-container iframe {
   width: 100%;
   height: 100%;
   border: 0;
   display: block;
-  filter: brightness(0.75) saturate(0.85);
+  /* Oscurecer + ligera desaturación — suficiente para integrar con la página */
+  filter: brightness(0.6) saturate(0.75) contrast(0.95);
 }
 
-/* Overlay navy con mix-blend-mode:multiply
-   Multiplica cada pixel del mapa × navy (#1a237e)
-   → agua (azul claro) × navy = navy oscuro
-   → carreteras (blanco) × navy = navy puro
-   → tierra (beige) × navy = navy terroso
-   Resultado: mapa con exactamente la paleta de la página */
+/* Overlay: tinte navy muy sutil sobre el mapa oscurecido
+   opacity: 0.28 = suficiente color sin tapar el mapa */
 .map-container::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: #1a237e;
-  mix-blend-mode: multiply;
-  opacity: 0.78;
+  background: rgba(5, 10, 40, 0.28);
   pointer-events: none;
   z-index: 4;
   border-radius: var(--radius-lg);

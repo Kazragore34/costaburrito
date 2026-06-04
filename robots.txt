@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://costaburrito.com/sitemap.xml
+
+# Bloquear archivos de sistema internos
+Disallow: /lib/
+Disallow: /.claude/
