@@ -14,12 +14,23 @@
 <body>
 
   <!-- ── Selector de idioma ─────────────────────────────────────────── -->
-  <div class="lang-bar" role="navigation" aria-label="Selección de idioma">
+  <nav class="lang-bar" aria-label="Selección de idioma">
     <button class="lang-btn active" data-lang="es" aria-pressed="true">ES</button>
     <span class="lang-sep" aria-hidden="true">·</span>
     <button class="lang-btn" data-lang="ca" aria-pressed="false">CA</button>
     <span class="lang-sep" aria-hidden="true">·</span>
     <button class="lang-btn" data-lang="fr" aria-pressed="false">FR</button>
+    <span class="lang-sep" aria-hidden="true">·</span>
+    <button class="lang-more-btn" id="langMoreBtn" aria-expanded="false" aria-haspopup="true">+</button>
+  </nav>
+
+  <!-- Dropdown idiomas adicionales -->
+  <div class="lang-dropdown" id="langDropdown" role="menu">
+    <button class="lang-dropdown-btn" data-lang="en" role="menuitem"><span class="lang-flag">🇬🇧</span>English</button>
+    <button class="lang-dropdown-btn" data-lang="de" role="menuitem"><span class="lang-flag">🇩🇪</span>Deutsch</button>
+    <button class="lang-dropdown-btn" data-lang="it" role="menuitem"><span class="lang-flag">🇮🇹</span>Italiano</button>
+    <button class="lang-dropdown-btn" data-lang="nl" role="menuitem"><span class="lang-flag">🇳🇱</span>Nederlands</button>
+    <button class="lang-dropdown-btn" data-lang="ru" role="menuitem"><span class="lang-flag">🇷🇺</span>Русский</button>
   </div>
 
   <!-- ═══════════════════════════════════ HERO ═══════════════════════════════════ -->
@@ -251,8 +262,7 @@
   </footer>
 
   <script defer src="lib/gsap.min.js"></script>
-  <script defer src="lib/ScrollTrigger.min.js"></script>
-  <script defer src="main.js?v=20260604b"></script>
+  <script defer src="main.js?v=20260605"></script>
 
 </body>
 </html>
