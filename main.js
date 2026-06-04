@@ -260,37 +260,31 @@
     }
   }
 
-  /* ── TAPE WIDTH — posicionamiento pixel-perfect ───────────────── */
+  /* ── TAPE WIDTH — fórmula matemática exacta ──────────────────── */
+  /* Prueba:
+     hero = flex column, align-items:center, padding-inline = P
+     heroContentWidth = vw - 2P
+     tape.width = vw + 40  (buffer de 20px cada lado)
+     align-items centra el tape:
+       tape.left = P + (heroContentWidth - tape.width) / 2
+                 = P + (vw - 2P - vw - 40) / 2
+                 = P - P - 20 = -20px  (siempre, independiente de P y vw)
+     hero overflow:hidden recorta en 0 → tape aparece de 0 a vw ✓  */
   function setTapeWidth() {
     var tape = document.querySelector(".hero-tape");
     if (!tape) return;
-
-    /* Usar clientWidth (excluye scrollbar) para evitar overflow horizontal */
-    var vw = document.documentElement.clientWidth;
-
-    /* Paso 1: reset temporal para medir posición natural */
-    tape.style.width = "1px";
+    var vw = document.documentElement.clientWidth; /* excluye scrollbar */
+    /* width = vw+40: con align-items:center y padding simétrico,
+       tape queda centrada a -20px del viewport → hero overflow:hidden la recorta exacto */
+    tape.style.width      = (vw + 40) + "px";
     tape.style.marginLeft = "0";
-    tape.style.transform = "none";
-
-    /* Paso 2: medir dónde queda el borde izquierdo de la cinta */
-    var rect = tape.getBoundingClientRect();
-    var tapeNaturalLeft = rect.left; /* distancia desde el borde izquierdo del viewport */
-
-    /* Paso 3: aplicar ancho y margen correcto */
-    tape.style.width = vw + "px";
-    tape.style.marginLeft = (-tapeNaturalLeft) + "px";
-
-    /* Paso 4: restaurar la rotación */
-    tape.style.transform = "rotate(-1.5deg)";
+    tape.style.marginRight = "0";
+    tape.style.transform  = "rotate(-1.5deg)";
   }
 
   function initTapeWidth() {
     setTapeWidth();
-    /* Re-calcular en resize */
-    window.addEventListener("resize", function () {
-      setTapeWidth();
-    }, { passive: true });
+    window.addEventListener("resize", setTapeWidth, { passive: true });
   }
 
   /* ── Countdown ────────────────────────────────────────────────── */

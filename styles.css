@@ -6,15 +6,17 @@
 /* ── Tokens ──────────────────────────────────────────────────────── */
 :root {
   /* Exactamente los azules del logo Costa Burrito */
-  --bg:          #050a15;   /* negro azulado muy oscuro */
+  --bg:          #050a15;
   --bg-2:        #090f1e;
   --bg-3:        #0f1830;
-  --navy:        #1a237e;   /* azul logo exacto */
-  --navy-light:  #1e2ea0;   /* ligeramente más claro */
-  --blue:        #1a237e;   /* botones = mismo navy del logo */
-  --blue-hover:  #253494;   /* hover: un tono más claro */
-  --blue-light:  #3949ab;   /* acento claro */
+  --navy:        #1a237e;
+  --navy-light:  #1e2ea0;
+  --blue:        #1a237e;
+  --blue-hover:  #253494;
+  --blue-light:  #3949ab;
   --blue-glow:   rgba(26, 35, 126, 0.45);
+  /* Padding horizontal del hero — usado por la cinta para breakout */
+  --hero-hpad:   1.5rem;
   --white:       #f0f4ff;
   --white-soft:  rgba(240, 244, 255, 0.72);
   --white-mute:  rgba(240, 244, 255, 0.38);
@@ -174,7 +176,6 @@ abbr { text-decoration: none; }
   position: relative;
   min-height: 100vh;
   min-height: 100svh;
-  /* En pantallas muy altas no estirar infinito */
   max-height: 100vh;
   max-height: 100svh;
   display: flex;
@@ -182,7 +183,7 @@ abbr { text-decoration: none; }
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 2rem 1.5rem 4rem;
+  padding: 2rem var(--hero-hpad) 4rem;
 }
 
 /* Background gradient — deep navy mesh */
@@ -327,8 +328,12 @@ abbr { text-decoration: none; }
   margin-top: -0.06em;
 }
 
-/* Tape band — ancho y posición calculados por JS con getBoundingClientRect()
-   CSS solo define apariencia; JS garantiza que ocupe exactamente 100vw */
+/* Tape band — ancho calculado por JS: width = clientWidth + 40px
+   Con align-items:center y padding simétrico P:
+     tape.left = P + (contentWidth - (vw+40)) / 2
+               = P + (vw-2P - vw - 40) / 2
+               = -20px  (siempre, sin importar P o vw)
+   hero overflow:hidden recorta en 0 → tape span exacto 0 a vw ✓ */
 .hero-tape {
   overflow: hidden;
   background: var(--navy);
@@ -338,7 +343,7 @@ abbr { text-decoration: none; }
   margin-bottom: 0.3rem;
   flex-shrink: 0;
   z-index: 3;
-  /* Fallback mínimo antes de que JS actúe */
+  /* Width y margin gestionados por JS — fallback por si JS tarda */
   width: 100%;
 }
 .tape-track {
@@ -851,16 +856,34 @@ abbr { text-decoration: none; }
   border: 1px solid var(--line);
   height: clamp(280px, 38vw, 420px);
   position: relative;
+  isolation: isolate;   /* crea stacking context para mix-blend-mode */
 }
 
-/* Iframe modo noche con tinte azul marino — igual que la paleta de la página */
+/* Iframe: oscurecer manteniendo colores originales */
 .map-container iframe {
   width: 100%;
   height: 100%;
   border: 0;
   display: block;
-  /* grayscale→invert da mapa oscuro, sepia+hue-rotate añade tinte navy sin verde */
-  filter: grayscale(1) invert(1) sepia(0.6) hue-rotate(195deg) brightness(0.72) contrast(0.88);
+  filter: brightness(0.75) saturate(0.85);
+}
+
+/* Overlay navy con mix-blend-mode:multiply
+   Multiplica cada pixel del mapa × navy (#1a237e)
+   → agua (azul claro) × navy = navy oscuro
+   → carreteras (blanco) × navy = navy puro
+   → tierra (beige) × navy = navy terroso
+   Resultado: mapa con exactamente la paleta de la página */
+.map-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #1a237e;
+  mix-blend-mode: multiply;
+  opacity: 0.78;
+  pointer-events: none;
+  z-index: 4;
+  border-radius: var(--radius-lg);
 }
 
 /* Overlay moderno — se muestra primero, luego hace fade out */
@@ -1046,7 +1069,8 @@ abbr { text-decoration: none; }
    ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 600px) {
   /* Hero */
-  .hero { padding: 3.5rem 1.2rem 3rem; }
+  :root { --hero-hpad: 1.2rem; }
+  .hero { padding: 3.5rem var(--hero-hpad) 3rem; }
   .hero-top  { gap: 0.5rem; padding-top: 0.5rem; }
   .hero-bottom { gap: 0.7rem; padding-bottom: 1rem; }
 
