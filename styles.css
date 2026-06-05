@@ -524,8 +524,8 @@ abbr { text-decoration: none; }
 }
 .marquee-track {
   display: flex;
-  width: max-content;     /* crítico: para que -50% = exactamente 1 copia */
-  animation: marqueeScroll 30s linear infinite;
+  width: max-content;
+  animation: marqueeScroll 18s linear infinite;
   will-change: transform;
 }
 .marquee-item {
@@ -539,7 +539,7 @@ abbr { text-decoration: none; }
 
 @keyframes marqueeScroll {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(var(--marquee-shift, -50%)); }
 }
 
 /* ══════════════════════════════════════════════════════════════════

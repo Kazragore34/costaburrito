@@ -9,6 +9,49 @@
     try { fn(); } catch (e) { console.warn("[CB:" + name + "]", e); }
   }
 
+  function setupMarquee() {
+    var track = document.querySelector(".marquee-track");
+    if (!track) return;
+
+    /* Remove previous clones */
+    track.querySelectorAll(".marquee-clone").forEach(function (el) { el.remove(); });
+
+    var originals = Array.from(track.querySelectorAll(".marquee-item"));
+    if (!originals.length) return;
+
+    /* Clone originals so the loop has content to fill the viewport */
+    originals.forEach(function (item) {
+      var clone = item.cloneNode(true);
+      clone.classList.add("marquee-clone");
+      clone.removeAttribute("data-i18n-marquee");
+      track.appendChild(clone);
+    });
+
+    /* Measure after paint and set exact pixel shift */
+    requestAnimationFrame(function () {
+      var origWidth = originals.reduce(function (acc, el) { return acc + el.offsetWidth; }, 0);
+      /* Ensure we always have at least 2× viewport width before the loop point */
+      var vw = window.innerWidth;
+      var copies = Math.ceil((vw * 2) / origWidth) + 1;
+      /* If we need more clones, add them */
+      while (copies > 2) {
+        originals.forEach(function (item) {
+          var clone = item.cloneNode(true);
+          clone.classList.add("marquee-clone");
+          clone.removeAttribute("data-i18n-marquee");
+          track.appendChild(clone);
+        });
+        copies--;
+      }
+      /* Recalculate total originals width (1 set) */
+      track.style.setProperty("--marquee-shift", "-" + origWidth + "px");
+      /* Restart animation cleanly */
+      track.style.animation = "none";
+      track.offsetWidth; /* reflow */
+      track.style.animation = "";
+    });
+  }
+
   /* ══════════════════════════════════════════════════════════════
      TRADUCCIONES
      ══════════════════════════════════════════════════════════════ */
@@ -189,6 +232,7 @@
     document.querySelectorAll("[data-i18n-marquee]").forEach(function (el) {
       el.textContent = t.marquee || "";
     });
+    setupMarquee();
 
     /* Botones principales */
     document.querySelectorAll(".lang-btn").forEach(function (btn) {
