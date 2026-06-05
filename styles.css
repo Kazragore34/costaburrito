@@ -777,24 +777,31 @@ abbr { text-decoration: none; }
   opacity: 0.9;
 }
 
-/* ── Sticky scroll scrubbing del logo animado ─────────────────── */
+/* ── Sección logo animado + sticky scroll scrubbing ───────────── */
+.logo-anim-section {
+  background: var(--bg);      /* fondo propio: nada de otras secciones se cuela */
+  overflow: hidden;           /* evita scroll horizontal en móvil */
+}
 .logo-scroll-wrap {
-  /* 220vh: el sticky dura 120vh → tiempo suficiente para apreciar la animación */
-  height: 220vh;
+  /* 200vh total → sticky dura 100vh (el usuario scrollea 1 pantalla con el logo fijo) */
+  height: 200vh;
   position: relative;
 }
 .logo-scroll-sticky {
   position: sticky;
   top: 0;
+  /* svh: viewport real en móvil (excluye barra de dirección) */
   height: 100vh;
+  height: 100svh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--bg); /* fondo sólido mientras está pegado */
 }
 .info-logo-video {
   display: block;
-  width: clamp(200px, 32vw, 340px);
+  width: clamp(200px, 38vw, 360px);
+  /* En móvil: usar vw para no desbordar */
+  max-width: 80vw;
   height: auto;
   filter: drop-shadow(0 6px 30px rgba(26,35,126,0.75));
 }
