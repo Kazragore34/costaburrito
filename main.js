@@ -9,51 +9,67 @@
     try { fn(); } catch (e) { console.warn("[CB:" + name + "]", e); }
   }
 
+  var _marqueeRAF = null;
+
   function setupMarquee() {
     var track = document.querySelector(".marquee-track");
     if (!track) return;
 
-    /* Remove previous clones */
+    /* Cancel any running RAF loop */
+    if (_marqueeRAF) { cancelAnimationFrame(_marqueeRAF); _marqueeRAF = null; }
+
+    /* Kill CSS animation — we drive it entirely with JS */
+    track.style.animation = "none";
+    track.style.transform = "translateX(0)";
+
+    /* Remove old clones */
     track.querySelectorAll(".marquee-clone").forEach(function (el) { el.remove(); });
 
     var originals = Array.from(track.querySelectorAll(".marquee-item"));
     if (!originals.length) return;
 
+    /* Wait two frames so fonts + layout are settled before measuring */
     requestAnimationFrame(function () {
-      /* Width of one full "unit" (the 4 original items) */
-      var unitWidth = originals.reduce(function (acc, el) { return acc + el.offsetWidth; }, 0);
-      if (!unitWidth) return;
+      requestAnimationFrame(function () {
+        var unitWidth = originals.reduce(function (acc, el) { return acc + el.offsetWidth; }, 0);
 
-      var vw = window.innerWidth;
+        /* Safety: retry once more if font hasn't painted yet */
+        if (!unitWidth) {
+          setTimeout(function () { setupMarquee(); }, 100);
+          return;
+        }
 
-      /*
-       * We need enough copies so that after shifting -unitWidth the screen
-       * is still completely filled.
-       * At position -unitWidth the visible area starts at offset unitWidth,
-       * so we need: totalTrackWidth >= unitWidth + vw
-       * → copiesNeeded = ceil(vw / unitWidth) + 2  (originals count as 1)
-       */
-      var copiesNeeded = Math.ceil(vw / unitWidth) + 2;
-      for (var i = 0; i < copiesNeeded; i++) {
-        originals.forEach(function (item) {
-          var clone = item.cloneNode(true);
-          clone.classList.add("marquee-clone");
-          clone.removeAttribute("data-i18n-marquee");
-          track.appendChild(clone);
-        });
-      }
+        var vw = window.innerWidth;
 
-      /* Animate exactly one unit width → seamless jump back to 0 */
-      track.style.setProperty("--marquee-shift", "-" + unitWidth + "px");
+        /* Fill enough copies so the track never goes blank:
+           we need totalWidth >= unitWidth (shift) + vw (screen) + some buffer */
+        var copiesNeeded = Math.ceil((vw + unitWidth) / unitWidth) + 1;
+        for (var i = 0; i < copiesNeeded; i++) {
+          originals.forEach(function (item) {
+            var clone = item.cloneNode(true);
+            clone.classList.add("marquee-clone");
+            clone.removeAttribute("data-i18n-marquee");
+            track.appendChild(clone);
+          });
+        }
 
-      /* Speed: 80 px/s via CSS variable (avoids clobbering animationDuration) */
-      var duration = (unitWidth / 80).toFixed(2);
-      track.style.setProperty("--marquee-duration", duration + "s");
+        /* JS-driven RAF loop — 80 px/s, wraps at unitWidth */
+        var pos = 0;
+        var speed = 80;
+        var last = null;
 
-      /* Restart using animationName toggle — does NOT wipe other anim properties */
-      track.style.animationName = "none";
-      track.offsetWidth; /* reflow */
-      track.style.animationName = "";
+        function tick(now) {
+          if (last === null) last = now;
+          var dt = (now - last) / 1000;
+          last = now;
+          pos += speed * dt;
+          if (pos >= unitWidth) pos -= unitWidth;
+          track.style.transform = "translateX(-" + pos.toFixed(2) + "px)";
+          _marqueeRAF = requestAnimationFrame(tick);
+        }
+
+        _marqueeRAF = requestAnimationFrame(tick);
+      });
     });
   }
 

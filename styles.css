@@ -525,7 +525,6 @@ abbr { text-decoration: none; }
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marqueeScroll var(--marquee-duration, 18s) linear infinite;
   will-change: transform;
 }
 .marquee-item {
@@ -537,10 +536,6 @@ abbr { text-decoration: none; }
   white-space: nowrap;
 }
 
-@keyframes marqueeScroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(var(--marquee-shift, -50%)); }
-}
 
 /* ══════════════════════════════════════════════════════════════════
    REGISTRO
