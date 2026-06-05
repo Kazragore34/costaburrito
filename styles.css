@@ -263,27 +263,15 @@ abbr { text-decoration: none; }
 /* Mantener compatibilidad: hero-inner ya no se usa pero por si acaso */
 .hero-inner { display: none; }
 
-/* Logo — protagonista, proporcional a viewport */
+/* Logo hero — protagonista, proporcional a viewport */
 .hero-logo {
   width: min(220px, 28vh, 56vw);
   margin-bottom: 0.4rem;
-  /* filter en el parent para que no interfiera con clip-path del img */
-  filter: drop-shadow(0 8px 32px rgba(26,35,126,0.8)) drop-shadow(0 2px 8px rgba(0,0,0,0.6));
 }
 .hero-logo .logo-img {
   width: 100%;
   height: auto;
-  /* Animación burro slide-in:
-     - Estado inicial: clip muestra solo el badge (bottom ~42%)
-     - Animación: clip sube hasta 0% → burro aparece deslizándose desde arriba
-     - animation-fill-mode:both → estado inicial aplicado desde t=0
-     - delay 0.7s → espera a que el hero esté visible
-  */
-  animation: logoBurroReveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
-}
-@keyframes logoBurroReveal {
-  from { clip-path: inset(57% 0 0 0 round 4px); }
-  to   { clip-path: inset(0%  0 0 0 round 4px); }
+  filter: drop-shadow(0 8px 32px rgba(26,35,126,0.8)) drop-shadow(0 2px 8px rgba(0,0,0,0.6));
 }
 .hero-logo.logo-fallback .logo-img { display: none; }
 .hero-logo.logo-fallback .logo-svg-fallback { display: flex !important; }
@@ -783,10 +771,17 @@ abbr { text-decoration: none; }
   gap: 0.5rem;
 }
 .info-logo {
-  width: clamp(100px, 20vw, 160px);
+  width: clamp(120px, 22vw, 200px);
   height: auto;
   filter: drop-shadow(0 4px 20px rgba(26,35,126,0.6));
   opacity: 0.9;
+}
+/* Video del logo animado — mismo tamaño, fondo transparente */
+.info-logo-video {
+  display: block;
+  width: clamp(120px, 22vw, 200px);
+  height: auto;
+  filter: drop-shadow(0 4px 20px rgba(26,35,126,0.6));
 }
 .info-logo-text {
   font-family: var(--font-display);
@@ -1167,7 +1162,6 @@ abbr { text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   .bgPulse { animation: none; }
   .scroll-hint span::after { animation: none; }
-  .hero-logo .logo-img { animation: none; clip-path: none; }
 }
 
 /* ══════════════════════════════════════════════════════════════════

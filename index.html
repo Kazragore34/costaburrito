@@ -280,10 +280,14 @@
   <section class="info" aria-labelledby="info-heading">
     <h2 class="visually-hidden" id="info-heading" data-i18n="info_heading">Información del restaurante</h2>
 
-    <!-- Logo centrado sobre las info cards -->
+    <!-- Logo animado entre formulario y mapa -->
     <div class="info-logo-wrap reveal-up">
-      <img src="assets/img/logo.png" alt="Costa Burrito" class="info-logo"
-        onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+      <video class="info-logo info-logo-video" muted loop playsinline preload="metadata"
+             aria-label="Costa Burrito logo animado">
+        <source src="assets/img/logo-anim.webm" type="video/webm">
+        <!-- Fallback: imagen estática si el navegador no soporta WebM -->
+        <img src="assets/img/logo.png" alt="Costa Burrito" class="info-logo">
+      </video>
       <span class="info-logo-text" style="display:none">COSTA BURRITO</span>
     </div>
 

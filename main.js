@@ -621,6 +621,28 @@
     }
   }
 
+  /* ── Logo animado (video) — reproduce al entrar en pantalla ───── */
+  function initLogoAnim() {
+    var video = document.querySelector(".info-logo-video");
+    if (!video) return;
+
+    /* Empieza pausado; reproducir al entrar en viewport */
+    video.pause();
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          video.currentTime = 0;
+          video.play().catch(function () {}); /* ignora error de autoplay */
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    io.observe(video);
+  }
+
   /* ── Boot ─────────────────────────────────────────────────────── */
   function boot() {
     safe(initTheme,        "initTheme");
@@ -632,6 +654,7 @@
     safe(initForm,         "initForm");
     safe(initSmoothScroll, "initSmoothScroll");
     safe(initMapOverlay,   "initMapOverlay");
+    safe(initLogoAnim,     "initLogoAnim");
   }
 
   if (document.readyState === "loading") {
