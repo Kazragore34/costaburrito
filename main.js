@@ -588,8 +588,42 @@
     setTimeout(hide, 2500);
   }
 
+  /* ── Theme toggle ────────────────────────────────────────────── */
+  function initTheme() {
+    var btn   = document.getElementById("themeToggle");
+    var icon  = document.getElementById("themeIcon");
+    var label = document.getElementById("themeLabel");
+    if (!btn) return;
+
+    /* Restore saved preference */
+    var saved = "dark";
+    try { saved = localStorage.getItem("cb_theme") || "dark"; } catch (_) {}
+    applyTheme(saved, false);
+
+    btn.addEventListener("click", function () {
+      var next = document.body.classList.contains("light-mode") ? "dark" : "light";
+      applyTheme(next, true);
+    });
+
+    function applyTheme(mode, save) {
+      if (mode === "light") {
+        document.body.classList.add("light-mode");
+        if (icon)  icon.textContent  = "☀️";
+        if (label) label.textContent = "DÍA";
+      } else {
+        document.body.classList.remove("light-mode");
+        if (icon)  icon.textContent  = "🌙";
+        if (label) label.textContent = "NOCHE";
+      }
+      if (save) {
+        try { localStorage.setItem("cb_theme", mode); } catch (_) {}
+      }
+    }
+  }
+
   /* ── Boot ─────────────────────────────────────────────────────── */
   function boot() {
+    safe(initTheme,        "initTheme");
     safe(initLang,         "initLang");
     safe(initTapeWidth,    "initTapeWidth");
     safe(initCountdown,    "initCountdown");
