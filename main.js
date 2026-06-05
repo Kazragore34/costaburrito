@@ -19,32 +19,37 @@
     var originals = Array.from(track.querySelectorAll(".marquee-item"));
     if (!originals.length) return;
 
-    /* Clone originals so the loop has content to fill the viewport */
-    originals.forEach(function (item) {
-      var clone = item.cloneNode(true);
-      clone.classList.add("marquee-clone");
-      clone.removeAttribute("data-i18n-marquee");
-      track.appendChild(clone);
-    });
-
-    /* Measure after paint and set exact pixel shift */
     requestAnimationFrame(function () {
-      var origWidth = originals.reduce(function (acc, el) { return acc + el.offsetWidth; }, 0);
-      /* Ensure we always have at least 2× viewport width before the loop point */
+      /* Width of one full "unit" (the 4 original items) */
+      var unitWidth = originals.reduce(function (acc, el) { return acc + el.offsetWidth; }, 0);
+      if (!unitWidth) return;
+
       var vw = window.innerWidth;
-      var copies = Math.ceil((vw * 2) / origWidth) + 1;
-      /* If we need more clones, add them */
-      while (copies > 2) {
+
+      /*
+       * We need enough copies so that after shifting -unitWidth the screen
+       * is still completely filled.
+       * At position -unitWidth the visible area starts at offset unitWidth,
+       * so we need: totalTrackWidth >= unitWidth + vw
+       * → copiesNeeded = ceil(vw / unitWidth) + 2  (originals count as 1)
+       */
+      var copiesNeeded = Math.ceil(vw / unitWidth) + 2;
+      for (var i = 0; i < copiesNeeded; i++) {
         originals.forEach(function (item) {
           var clone = item.cloneNode(true);
           clone.classList.add("marquee-clone");
           clone.removeAttribute("data-i18n-marquee");
           track.appendChild(clone);
         });
-        copies--;
       }
-      /* Recalculate total originals width (1 set) */
-      track.style.setProperty("--marquee-shift", "-" + origWidth + "px");
+
+      /* Animate exactly one unit width → seamless jump back to 0 */
+      track.style.setProperty("--marquee-shift", "-" + unitWidth + "px");
+
+      /* Speed: 80 px/s — feels natural, adjust if needed */
+      var duration = (unitWidth / 80).toFixed(2);
+      track.style.animationDuration = duration + "s";
+
       /* Restart animation cleanly */
       track.style.animation = "none";
       track.offsetWidth; /* reflow */
