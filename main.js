@@ -621,14 +621,14 @@
     }
   }
 
-  /* ── Logo animado — sticky scroll scrubbing ──────────────────── */
-  /* La página se "congela" mientras el video avanza con el scroll.
-     El wrapper tiene height:220vh → el sticky dura 120vh.
-     progress=0 al entrar, progress=1 al salir del sticky.        */
+  /* ── Logo animado — scroll scrubbing natural ─────────────────── */
+  /* Sin sticky, sin espacio vacío. El video scrub va de:
+     progress=0  cuando el top del logo llega al bottom del viewport (entra)
+     progress=1  cuando el bottom del logo llega al top del viewport (sale)
+     En medio (logo centrado en pantalla) → ~50% del video.           */
   function initLogoAnim() {
-    var video   = document.querySelector(".info-logo-video");
-    var wrapper = document.querySelector(".logo-scroll-wrap");
-    if (!video || !wrapper) return;
+    var video = document.querySelector(".info-logo-video");
+    if (!video) return;
 
     video.pause();
     video.currentTime = 0;
@@ -637,13 +637,15 @@
 
     function scrub() {
       rafPending = false;
-      var rect       = wrapper.getBoundingClientRect();
-      var wh         = window.innerHeight;
-      /* Rango total de scroll "gastado" en el sticky = wrapperHeight - vh */
-      var stickyRange = wrapper.offsetHeight - wh;
-      /* Cuánto hemos scrolleado dentro del wrapper */
-      var scrolled    = -rect.top;
-      var progress    = Math.max(0, Math.min(1, scrolled / stickyRange));
+      var rect  = video.getBoundingClientRect();
+      var wh    = window.innerHeight;
+      var elH   = rect.height || 300;
+
+      /* Rango completo: desde que entra hasta que sale */
+      var totalRange = wh + elH;
+      /* Cuánto ha avanzado desde que entró */
+      var scrolled   = wh - rect.top;
+      var progress   = Math.max(0, Math.min(1, scrolled / totalRange));
 
       if (video.readyState >= 2 && video.duration) {
         video.currentTime = progress * video.duration;
@@ -658,7 +660,7 @@
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    window.addEventListener("resize", scrub, { passive: true });
     video.addEventListener("loadedmetadata", scrub);
     scrub();
   }
