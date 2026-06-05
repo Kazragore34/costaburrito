@@ -713,7 +713,8 @@ abbr { text-decoration: none; }
   padding: 2rem;
   gap: 1rem;
 }
-.reg-success[hidden] { display: none; }
+.reg-form[hidden],
+.reg-success[hidden] { display: none !important; }
 .success-check {
   width: 72px;
   height: 72px;
