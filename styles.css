@@ -779,13 +779,17 @@ abbr { text-decoration: none; }
 
 /* ── Banner logo ───────────────────────────────────────────────── */
 .logo-banner-section {
-  width: 100%;
-  overflow: hidden;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 3rem);
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
 }
 .logo-banner-img {
-  width: 100%;
-  height: auto;
   display: block;
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  border-radius: var(--radius-lg);
 }
 .info-logo-text {
   font-family: var(--font-display);
