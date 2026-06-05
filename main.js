@@ -141,7 +141,7 @@
       hero_cta:"Inscris-toi · Obtiens ta réduction",
       tape:" INAUGURATION · 24 JUIN · SANT JOAN · EMPURIABRAVA · HEALTH FAST FOOD · COSTA BURRITO ·",
       marquee:" INAUGURATION · 24 JUIN · SANT JOAN · EMPURIABRAVA · HEALTH FAST FOOD · COSTA BURRITO ·",
-      reg_kicker:"OFFRE EXCLUSIVE · INAUGURATION", reg_title1:"Sois malin,", reg_title2:"inscris-toi!",
+      reg_kicker:"OFFRE EXCLUSIVE · INAUGURATION", reg_title1:"Sois pas", reg_title2:"un âne!",
       reg_sub:"Inscris-toi maintenant et obtiens une réduction exclusive pour l'inauguration. Sois parmi les premiers à découvrir le meilleur health fast food de la Costa Brava.",
       perk1:"Réduction exclusive à ta première visite", perk2:"24 Juin — Playa de la Rubina",
       perk3:"Vendredi, Samedi et Dimanche · 12h–23h",
@@ -595,9 +595,9 @@
     var label = document.getElementById("themeLabel");
     if (!btn) return;
 
-    /* Restore saved preference */
-    var saved = "dark";
-    try { saved = localStorage.getItem("cb_theme") || "dark"; } catch (_) {}
+    /* Restore saved preference — default: light */
+    var saved = "light";
+    try { saved = localStorage.getItem("cb_theme") || "light"; } catch (_) {}
     applyTheme(saved, false);
 
     btn.addEventListener("click", function () {

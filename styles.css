@@ -1307,6 +1307,18 @@ body.light-mode .btn-submit:hover:not(:disabled) {
 }
 body.light-mode .form-legal { color: rgba(26,35,126,0.4); }
 
+/* Botón submit: fondo navy oscuro → texto siempre blanco */
+body.light-mode .btn-submit,
+body.light-mode .btn-submit .btn-label,
+body.light-mode .btn-submit .btn-ok { color: #f0f4ff !important; }
+
+/* Tira marquee-band: fondo navy → texto siempre blanco */
+body.light-mode .marquee-item { color: #f0f4ff; }
+
+/* Botón "open now": fondo navy → texto blanco */
+body.light-mode .btn-open-now { color: #f0f4ff; }
+body.light-mode .bon-sub { color: rgba(240,244,255,0.72); }
+
 /* Info cards */
 body.light-mode .info-card {
   background: #ffffff;
