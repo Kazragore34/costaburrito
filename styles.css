@@ -265,14 +265,25 @@ abbr { text-decoration: none; }
 
 /* Logo — protagonista, proporcional a viewport */
 .hero-logo {
-  /* min(...) toma el más pequeño entre vw, vh y px absoluto */
   width: min(220px, 28vh, 56vw);
   margin-bottom: 0.4rem;
+  /* filter en el parent para que no interfiera con clip-path del img */
+  filter: drop-shadow(0 8px 32px rgba(26,35,126,0.8)) drop-shadow(0 2px 8px rgba(0,0,0,0.6));
 }
 .hero-logo .logo-img {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 8px 32px rgba(26,35,126,0.8)) drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+  /* Animación burro slide-in:
+     - Estado inicial: clip muestra solo el badge (bottom ~42%)
+     - Animación: clip sube hasta 0% → burro aparece deslizándose desde arriba
+     - animation-fill-mode:both → estado inicial aplicado desde t=0
+     - delay 0.7s → espera a que el hero esté visible
+  */
+  animation: logoBurroReveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+@keyframes logoBurroReveal {
+  from { clip-path: inset(57% 0 0 0 round 4px); }
+  to   { clip-path: inset(0%  0 0 0 round 4px); }
 }
 .hero-logo.logo-fallback .logo-img { display: none; }
 .hero-logo.logo-fallback .logo-svg-fallback { display: flex !important; }
@@ -1156,6 +1167,7 @@ abbr { text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   .bgPulse { animation: none; }
   .scroll-hint span::after { animation: none; }
+  .hero-logo .logo-img { animation: none; clip-path: none; }
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -1266,6 +1278,9 @@ body.light-mode .hero-bg-gradient {
 }
 body.light-mode .hero-grain { opacity: 0.02; }
 body.light-mode .brush path { stroke: rgba(26,35,126,0.12); }
+body.light-mode .hero-logo {
+  filter: drop-shadow(0 6px 18px rgba(26,35,126,0.25)) drop-shadow(0 2px 6px rgba(26,35,126,0.15));
+}
 
 /* Btn hero */
 body.light-mode .btn-hero {
