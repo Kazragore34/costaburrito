@@ -1,0 +1,7 @@
+# Archivos de trabajo / referencias locales (no van al repo)
+imagenes/
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

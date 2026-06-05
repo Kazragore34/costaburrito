@@ -777,26 +777,15 @@ abbr { text-decoration: none; }
   opacity: 0.9;
 }
 
-/* ── Sección logo animado ──────────────────────────────────────── */
-.logo-anim-section {
-  background: var(--bg);
-  padding: clamp(4rem, 8vw, 7rem) 1rem;
-  display: flex;
-  justify-content: center;
+/* ── Banner logo ───────────────────────────────────────────────── */
+.logo-banner-section {
+  width: 100%;
+  overflow: hidden;
 }
-.logo-anim-inner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.info-logo-video {
-  display: block;
-  width: clamp(220px, 40vw, 400px);
-  max-width: 85vw;
+.logo-banner-img {
+  width: 100%;
   height: auto;
-  /* fondo transparente explícito — fix fondo negro en móvil */
-  background: transparent;
-  filter: drop-shadow(0 6px 30px rgba(26,35,126,0.75));
+  display: block;
 }
 .info-logo-text {
   font-family: var(--font-display);
