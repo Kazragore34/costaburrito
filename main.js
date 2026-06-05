@@ -46,14 +46,14 @@
       /* Animate exactly one unit width → seamless jump back to 0 */
       track.style.setProperty("--marquee-shift", "-" + unitWidth + "px");
 
-      /* Speed: 80 px/s — feels natural, adjust if needed */
+      /* Speed: 80 px/s via CSS variable (avoids clobbering animationDuration) */
       var duration = (unitWidth / 80).toFixed(2);
-      track.style.animationDuration = duration + "s";
+      track.style.setProperty("--marquee-duration", duration + "s");
 
-      /* Restart animation cleanly */
-      track.style.animation = "none";
+      /* Restart using animationName toggle — does NOT wipe other anim properties */
+      track.style.animationName = "none";
       track.offsetWidth; /* reflow */
-      track.style.animation = "";
+      track.style.animationName = "";
     });
   }
 

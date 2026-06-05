@@ -525,7 +525,7 @@ abbr { text-decoration: none; }
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marqueeScroll 18s linear infinite;
+  animation: marqueeScroll var(--marquee-duration, 18s) linear infinite;
   will-change: transform;
 }
 .marquee-item {
