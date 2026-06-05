@@ -9,68 +9,84 @@
     try { fn(); } catch (e) { console.warn("[CB:" + name + "]", e); }
   }
 
-  var _marqueeRAF = null;
+  /* ── Generic ticker: works for both .tape-track and .marquee-track ── */
+  var _tickerRAFs = {};
 
-  function setupMarquee() {
-    var track = document.querySelector(".marquee-track");
+  function setupTicker(trackSel, cloneAttr, speed) {
+    var track = document.querySelector(trackSel);
     if (!track) return;
 
-    /* Cancel any running RAF loop */
-    if (_marqueeRAF) { cancelAnimationFrame(_marqueeRAF); _marqueeRAF = null; }
+    /* Cancel previous loop for this track */
+    if (_tickerRAFs[trackSel]) {
+      cancelAnimationFrame(_tickerRAFs[trackSel]);
+      _tickerRAFs[trackSel] = null;
+    }
 
-    /* Kill CSS animation — we drive it entirely with JS */
+    /* Kill any CSS animation on this element */
     track.style.animation = "none";
     track.style.transform = "translateX(0)";
 
     /* Remove old clones */
     track.querySelectorAll(".marquee-clone").forEach(function (el) { el.remove(); });
 
-    var originals = Array.from(track.querySelectorAll(".marquee-item"));
+    var originals = Array.from(track.querySelectorAll("[" + cloneAttr + "]"));
     if (!originals.length) return;
 
-    /* Wait two frames so fonts + layout are settled before measuring */
+    /* Two rAF passes so layout is fully settled before measuring */
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         var unitWidth = originals.reduce(function (acc, el) { return acc + el.offsetWidth; }, 0);
 
-        /* Safety: retry once more if font hasn't painted yet */
         if (!unitWidth) {
-          setTimeout(function () { setupMarquee(); }, 100);
+          /* Font not ready yet — retry */
+          setTimeout(function () { setupTicker(trackSel, cloneAttr, speed); }, 150);
           return;
         }
 
         var vw = window.innerWidth;
 
-        /* Fill enough copies so the track never goes blank:
-           we need totalWidth >= unitWidth (shift) + vw (screen) + some buffer */
-        var copiesNeeded = Math.ceil((vw + unitWidth) / unitWidth) + 1;
-        for (var i = 0; i < copiesNeeded; i++) {
+        /* Enough clones so track always covers viewport even at max scroll position.
+           Total needed: unitWidth (one loop) + vw (screen) + 1 extra unit as buffer */
+        var copies = Math.ceil((vw + unitWidth) / unitWidth) + 1;
+        for (var i = 0; i < copies; i++) {
           originals.forEach(function (item) {
             var clone = item.cloneNode(true);
             clone.classList.add("marquee-clone");
-            clone.removeAttribute("data-i18n-marquee");
+            clone.removeAttribute(cloneAttr);
             track.appendChild(clone);
           });
         }
 
-        /* JS-driven RAF loop — 80 px/s, wraps at unitWidth */
-        var pos = 0;
-        var speed = 80;
+        var pos  = 0;
         var last = null;
 
         function tick(now) {
           if (last === null) last = now;
-          var dt = (now - last) / 1000;
+
+          /* Cap dt to 50 ms max — prevents huge jumps after tab switch */
+          var dt = Math.min((now - last) / 1000, 0.05);
           last = now;
+
           pos += speed * dt;
-          if (pos >= unitWidth) pos -= unitWidth;
+
+          /* Modulo — always stays in [0, unitWidth) regardless of dt */
+          pos = pos % unitWidth;
+
           track.style.transform = "translateX(-" + pos.toFixed(2) + "px)";
-          _marqueeRAF = requestAnimationFrame(tick);
+          _tickerRAFs[trackSel] = requestAnimationFrame(tick);
         }
 
-        _marqueeRAF = requestAnimationFrame(tick);
+        _tickerRAFs[trackSel] = requestAnimationFrame(tick);
       });
     });
+  }
+
+  function setupMarquee() {
+    setupTicker(".marquee-track", "data-i18n-marquee", 80);
+  }
+
+  function setupTape() {
+    setupTicker(".tape-track", "data-i18n-tape", 60);
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -254,6 +270,7 @@
       el.textContent = t.marquee || "";
     });
     setupMarquee();
+    setupTape();
 
     /* Botones principales */
     document.querySelectorAll(".lang-btn").forEach(function (btn) {

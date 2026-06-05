@@ -349,7 +349,6 @@ abbr { text-decoration: none; }
 .tape-track {
   display: flex;
   width: max-content;
-  animation: tapeScroll 22s linear infinite;
   will-change: transform;
 }
 .tape-text {
@@ -361,10 +360,6 @@ abbr { text-decoration: none; }
   flex-shrink: 0;
 }
 
-@keyframes tapeScroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
 
 /* Date */
 .hero-date {
@@ -1158,8 +1153,6 @@ abbr { text-decoration: none; }
    Reduced motion — only truly intrusive effects
    ══════════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  .tape-track,
-  .marquee-track { animation: none; }
   .bgPulse { animation: none; }
   .scroll-hint span::after { animation: none; }
 }
