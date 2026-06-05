@@ -621,13 +621,14 @@
     }
   }
 
-  /* ── Logo animado — scroll scrubbing ─────────────────────────── */
-  /* El video avanza al bajar y retrocede al subir,
-     va de currentTime=0 (cuando entra por abajo) a currentTime=duration
-     (cuando el elemento acaba de salir por arriba).              */
+  /* ── Logo animado — sticky scroll scrubbing ──────────────────── */
+  /* La página se "congela" mientras el video avanza con el scroll.
+     El wrapper tiene height:220vh → el sticky dura 120vh.
+     progress=0 al entrar, progress=1 al salir del sticky.        */
   function initLogoAnim() {
-    var video = document.querySelector(".info-logo-video");
-    if (!video) return;
+    var video   = document.querySelector(".info-logo-video");
+    var wrapper = document.querySelector(".logo-scroll-wrap");
+    if (!video || !wrapper) return;
 
     video.pause();
     video.currentTime = 0;
@@ -636,14 +637,13 @@
 
     function scrub() {
       rafPending = false;
-      var rect  = video.getBoundingClientRect();
-      var wh    = window.innerHeight;
-      var elH   = rect.height;
-
-      /* progress: 0 cuando top==wh (acaba de entrar), 1 cuando bottom==0 (acaba de salir) */
-      var totalRange = wh + elH;
-      var scrolled   = wh - rect.top;          /* píxeles scrolleados desde entrada */
-      var progress   = Math.max(0, Math.min(1, scrolled / totalRange));
+      var rect       = wrapper.getBoundingClientRect();
+      var wh         = window.innerHeight;
+      /* Rango total de scroll "gastado" en el sticky = wrapperHeight - vh */
+      var stickyRange = wrapper.offsetHeight - wh;
+      /* Cuánto hemos scrolleado dentro del wrapper */
+      var scrolled    = -rect.top;
+      var progress    = Math.max(0, Math.min(1, scrolled / stickyRange));
 
       if (video.readyState >= 2 && video.duration) {
         video.currentTime = progress * video.duration;
@@ -659,8 +659,6 @@
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
-
-    /* Llamada inicial para posicionar en carga */
     video.addEventListener("loadedmetadata", scrub);
     scrub();
   }

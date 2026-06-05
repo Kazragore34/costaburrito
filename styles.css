@@ -761,7 +761,7 @@ abbr { text-decoration: none; }
   background: var(--bg);
 }
 
-/* Logo centrado en la sección info */
+/* Logo centrado en la sección info (fallback estático) */
 .info-logo-wrap {
   max-width: 1100px;
   margin: 0 auto 2.5rem;
@@ -776,12 +776,27 @@ abbr { text-decoration: none; }
   filter: drop-shadow(0 4px 20px rgba(26,35,126,0.6));
   opacity: 0.9;
 }
-/* Video del logo animado — scroll scrubbing */
+
+/* ── Sticky scroll scrubbing del logo animado ─────────────────── */
+.logo-scroll-wrap {
+  /* 220vh: el sticky dura 120vh → tiempo suficiente para apreciar la animación */
+  height: 220vh;
+  position: relative;
+}
+.logo-scroll-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg); /* fondo sólido mientras está pegado */
+}
 .info-logo-video {
   display: block;
-  width: clamp(180px, 30vw, 320px);
+  width: clamp(200px, 32vw, 340px);
   height: auto;
-  filter: drop-shadow(0 6px 28px rgba(26,35,126,0.7));
+  filter: drop-shadow(0 6px 30px rgba(26,35,126,0.75));
 }
 .info-logo-text {
   font-family: var(--font-display);
