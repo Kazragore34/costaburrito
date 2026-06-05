@@ -621,26 +621,48 @@
     }
   }
 
-  /* ── Logo animado (video) — reproduce al entrar en pantalla ───── */
+  /* ── Logo animado — scroll scrubbing ─────────────────────────── */
+  /* El video avanza al bajar y retrocede al subir,
+     va de currentTime=0 (cuando entra por abajo) a currentTime=duration
+     (cuando el elemento acaba de salir por arriba).              */
   function initLogoAnim() {
     var video = document.querySelector(".info-logo-video");
     if (!video) return;
 
-    /* Empieza pausado; reproducir al entrar en viewport */
     video.pause();
+    video.currentTime = 0;
 
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          video.currentTime = 0;
-          video.play().catch(function () {}); /* ignora error de autoplay */
-        } else {
-          video.pause();
-        }
-      });
-    }, { threshold: 0.3 });
+    var rafPending = false;
 
-    io.observe(video);
+    function scrub() {
+      rafPending = false;
+      var rect  = video.getBoundingClientRect();
+      var wh    = window.innerHeight;
+      var elH   = rect.height;
+
+      /* progress: 0 cuando top==wh (acaba de entrar), 1 cuando bottom==0 (acaba de salir) */
+      var totalRange = wh + elH;
+      var scrolled   = wh - rect.top;          /* píxeles scrolleados desde entrada */
+      var progress   = Math.max(0, Math.min(1, scrolled / totalRange));
+
+      if (video.readyState >= 2 && video.duration) {
+        video.currentTime = progress * video.duration;
+      }
+    }
+
+    function onScroll() {
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(scrub);
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    /* Llamada inicial para posicionar en carga */
+    video.addEventListener("loadedmetadata", scrub);
+    scrub();
   }
 
   /* ── Boot ─────────────────────────────────────────────────────── */

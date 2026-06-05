@@ -776,12 +776,12 @@ abbr { text-decoration: none; }
   filter: drop-shadow(0 4px 20px rgba(26,35,126,0.6));
   opacity: 0.9;
 }
-/* Video del logo animado — mismo tamaño, fondo transparente */
+/* Video del logo animado — scroll scrubbing */
 .info-logo-video {
   display: block;
-  width: clamp(120px, 22vw, 200px);
+  width: clamp(180px, 30vw, 320px);
   height: auto;
-  filter: drop-shadow(0 4px 20px rgba(26,35,126,0.6));
+  filter: drop-shadow(0 6px 28px rgba(26,35,126,0.7));
 }
 .info-logo-text {
   font-family: var(--font-display);
